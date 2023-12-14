@@ -3,8 +3,7 @@ blueprint:
   description: 'Control lights with a Moes Smart Knob, with helper-based dynamic light control.
     You can set functions for a single press. This allows you to assign, e.g., a scene or anything else.
     Rotating left/right will change the brightness smoothly of the selected light.
-    
-    Not all functionality of the device is available at the time of writing, e.g. double press, long press, and press and rotate.'
+        '
 
   domain: automation
   input:
