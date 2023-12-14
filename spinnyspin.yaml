@@ -1,11 +1,10 @@
 blueprint:
-  name: ZHA - Moes Smart Knob for lights
-  description: 'Control lights with a Moes Smart Knob.
-    You can set functions for a single press. This allows you to assign, 
-    e.g., a scene or anything else.
+  name: ZHA - Moes Smart Knob for lights with Helper
+  description: 'Control lights with a Moes Smart Knob, with helper-based light control.
+    You can set functions for a single press. This allows you to assign, e.g., a scene or anything else.
     Rotating left/right will change the brightness smoothly of the selected light.
     
-    Not all functionality of the device is available at time of writing, e.g. double press, long press and press and rotate.'
+    Not all functionality of the device is available at time of writing, e.g. double press, long press, and press and rotate.'
 
   domain: automation
   input:
@@ -15,8 +14,8 @@ blueprint:
       selector:
         device:
           integration: zha
-          manufacturer: _TZ3000_qja6nq5z
-          model: TS004F
+#          manufacturer: _TZ3000_4fjiwweb
+#          model: TS004F
     light:
       name: Light(s)
       description: The light(s) to control
@@ -30,12 +29,18 @@ blueprint:
       default: []
       selector:
         action: {}
+    helper_entity:
+      name: Helper Entity
+      description: "Select the helper entity to determine the light state"
+      selector:
+        entity:
+          domain: input_select
 
   source_url: https://gist.github.com/seamus65/939a147634942dd885c8704334627f93
 mode: restart
 max_exceeded: silent
 trigger:
-- platform: event
+  platform: event
   event_type: zha_event
   event_data:
     device_id: !input 'remote'
@@ -44,6 +49,7 @@ action:
     command: '{{ trigger.event.data.command }}'
     cluster_id: '{{ trigger.event.data.cluster_id }}'
     args: '{% if trigger.event.data.args[0] == 0 %} 0 {% elif trigger.event.data.args[0] == 1 %} 1 {% elif trigger.event.data.args[0] == 3 %} 3 {% endif %}'
+    light_entity: '{{ states(input_select.helper_entity.state) }}'
 - choose:
   - conditions:
     - '{{ command == ''toggle'' }}'
@@ -60,7 +66,7 @@ action:
           value_template: "{{ repeat.index < 2 }}"
         sequence:
         - service_template: light.turn_on
-          target: !input 'light'
+          target: '{{ light_entity }}'
           data_template:
             brightness_step_pct: 5
             transition: 0.5
@@ -75,7 +81,7 @@ action:
           value_template: "{{ repeat.index < 2 }}"
         sequence:
         - service_template: light.turn_on
-          target: !input 'light'
+          target: '{{ light_entity }}'
           data_template:
             brightness_step_pct: -5
             transition: 0.5
@@ -90,7 +96,7 @@ action:
           value_template: "{{ repeat.index < 2 }}"
         sequence:
         - service_template: light.turn_on
-          target: !input 'light'
+          target: '{{ light_entity }}'
           data_template:
             brightness_step_pct: 20
             transition: 0.5
@@ -105,7 +111,7 @@ action:
           value_template: "{{ repeat.index < 2 }}"
         sequence:
         - service_template: light.turn_on
-          target: !input 'light'
+          target: '{{ light_entity }}'
           data_template:
             brightness_step_pct: -20
             transition: 0.5
