@@ -3,7 +3,8 @@ blueprint:
   description: 'Control lights with a Moes Smart Knob, with helper-based dynamic light control.
     You can set functions for a single press. This allows you to assign, e.g., a scene or anything else.
     Rotating left/right will change the brightness smoothly of the selected light.
-        '
+    
+    Not all functionality of the device is available at the time of writing, e.g. double press, long press, and press and rotate.'
 
   domain: automation
   input:
@@ -33,8 +34,6 @@ blueprint:
       selector:
         select:
           options: !input 'light_name'
-  mode: restart
-  max_exceeded: silent
   trigger:
     platform: event
     event_type: zha_event
@@ -45,7 +44,7 @@ blueprint:
       command: '{{ trigger.event.data.command }}'
       cluster_id: '{{ trigger.event.data.cluster_id }}'
       args: '{% if trigger.event.data.args[0] == 0 %} 0 {% elif trigger.event.data.args[0] == 1 %} 1 {% elif trigger.event.data.args[0] == 3 %} 3 {% endif %}'
-      light_entity: '{{ state_attr(input_select.mapping.state, "option") }}'
+      light_entity: '{{ state_attr(input_select.mapping, "option") }}'
   - choose:
     - conditions:
       - '{{ command == ''toggle'' }}'
