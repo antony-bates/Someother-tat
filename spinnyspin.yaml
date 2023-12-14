@@ -1,6 +1,6 @@
 blueprint:
-  name: ZHA - Moes Smart Knob for lights with Dynamic Mapping
-  description: 'Control lights with a Moes Smart Knob, with helper-based dynamic light control.
+  name: ZHA - Moes Smart Knob for lights with Dynamic Text Mapping
+  description: 'Control lights with a Moes Smart Knob, with helper-based dynamic text mapping.
     You can set functions for a single press. This allows you to assign, e.g., a scene or anything else.
     Rotating left/right will change the brightness smoothly of the selected light.
     
@@ -22,14 +22,19 @@ blueprint:
       default: []
       selector:
         action: {}
-    mapping:
-      name: Helper to Light Mapping
-      description: "Map helper entity to the corresponding light entity"
+    light_entity:
+      name: Light Entity
+      description: "Select the light entity to control"
       selector:
-        select:
-          options:
-            - light_1
-            - light_2
+        target:
+          entity:
+            domain: light
+    expected_text:
+      name: Expected Text
+      description: "Select the expected text from the input helper"
+      selector:
+        entity:
+          domain: input_select
 
   source_url: https://gist.github.com/seamus65/939a147634942dd885c8704334627f93
 mode: restart
@@ -44,7 +49,8 @@ action:
     command: '{{ trigger.event.data.command }}'
     cluster_id: '{{ trigger.event.data.cluster_id }}'
     args: '{% if trigger.event.data.args[0] == 0 %} 0 {% elif trigger.event.data.args[0] == 1 %} 1 {% elif trigger.event.data.args[0] == 3 %} 3 {% endif %}'
-    light_entity: '{{ state_attr(input_select.mapping.state, "option") }}'
+    expected_text: '{{ states(input_select.expected_text.state) }}'
+    light_entity: '{{ states.light[input_select.light_entity.state].entity_id }}'
 - choose:
   - conditions:
     - '{{ command == ''toggle'' }}'
