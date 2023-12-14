@@ -36,4 +36,18 @@ blueprint:
           options: !input 'light_name'
   trigger:
     platform: event
-    event_type
+    event_type: zha_event
+    event_data:
+      device_id: !input 'remote'
+  action:
+  - variables:
+      command: '{{ trigger.event.data.command }}'
+      cluster_id: '{{ trigger.event.data.cluster_id }}'
+      args: '{% if trigger.event.data.args[0] == 0 %} 0 {% elif trigger.event.data.args[0] == 1 %} 1 {% elif trigger.event.data.args[0] == 3 %} 3 {% endif %}'
+      light_entity: '{{ state_attr(input_select.mapping, "option") }}'
+  - choose:
+    - conditions:
+      - '{{ command == ''toggle'' }}'
+      - '{{ cluster_id == 6 }}'
+      sequence: !input 'single_press'
+    - 
