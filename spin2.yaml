@@ -34,7 +34,7 @@ blueprint:
             domain: light
     helper_entity:
       name: Helper Entity
-      description: Helper entity to determine which lights to control
+      description: Helper entity to determine which light to control
       selector:
         entity:
           domain: input_select
@@ -97,27 +97,21 @@ action:
       - '{{ endpoint_id == 1 }}'
       - '{{ step_type == "up" }}'
       sequence:
-      - repeat:
-          count: '{{ rate }}'
-          sequence:
-          - service: light.turn_on
-            target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
-            data:
-              brightness_step: '{{ ((rate|int)/2)|int }}'
-              transition: '{{ rate|int }}'
-          - delay: '{{ rate|int }}'
+      - service: light.turn_on
+        target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
+        data:
+          brightness_step: '{{ ((rate|int)/2)|int }}'
+          transition: '{{ rate|int }}'
+      - delay: '{{ rate|int }}'
     - conditions:
       - '{{ command == "step" }}'
       - '{{ cluster_id == 8 }}'
       - '{{ endpoint_id == 1 }}'
       - '{{ step_type == "down" }}'
       sequence:
-      - repeat:
-          count: '{{ rate }}'
-          sequence:
-          - service: light.turn_on
-            target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
-            data:
-              brightness_step: '{{ (((rate|int)/2)|int) * -1 }}'
-              transition: '{{ rate|int }}'
-          - delay: '{{ rate|int }}'
+      - service: light.turn_on
+        target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
+        data:
+          brightness_step: '{{ (((rate|int)/2)|int) * -1 }}'
+          transition: '{{ rate|int }}'
+      - delay: '{{ rate|int }}'
