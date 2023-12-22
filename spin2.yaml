@@ -18,9 +18,16 @@ blueprint:
       default: ""
       selector:
         entity: {}
-    light:
-      name: Light(s)
-      description: The light(s) to control
+    light_1:
+      name: Light 1
+      description: The first light to control
+      selector:
+        target:
+          entity:
+            domain: light
+    light_2:
+      name: Light 2
+      description: The second light to control
       selector:
         target:
           entity:
@@ -94,7 +101,7 @@ action:
           count: '{{ rate }}'
           sequence:
           - service: light.turn_on
-            target: "{{ states('input_select.helper_entity') }}"
+            target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
             data:
               brightness_step: '{{ ((rate|int)/2)|int }}'
               transition: '{{ rate|int }}'
@@ -109,7 +116,7 @@ action:
           count: '{{ rate }}'
           sequence:
           - service: light.turn_on
-            target: "{{ states('input_select.helper_entity') }}"
+            target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
             data:
               brightness_step: '{{ (((rate|int)/2)|int) * -1 }}'
               transition: '{{ rate|int }}'
