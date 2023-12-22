@@ -1,6 +1,6 @@
 blueprint:
   name: ZHA - Moes Tuya Smart Knob (TS004F) controller for lights
-  description: Control lights with a Moes Tuya smart knob (the spinny ones). You can set functions for single press, and rotating left/right will change the brightness smoothly of the selected lights.
+  description: Control lights with a Moes Tuya smart knob (the spinny ones). You can set functions for single press, and rotating left/right will change the brightness smoothly of the selected light.
   domain: automation
   source_url: https://gist.github.com/blizzrdof77/0f686e66db30c871e362e24388c3f8fa
   input:
@@ -98,7 +98,7 @@ action:
       - '{{ step_type == "up" }}'
       sequence:
       - service: light.turn_on
-        target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
+        target: "{{ states('input_select.helper_entity') == 'Light 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
         data:
           brightness_step: '{{ ((rate|int)/2)|int }}'
           transition: '{{ rate|int }}'
@@ -110,7 +110,7 @@ action:
       - '{{ step_type == "down" }}'
       sequence:
       - service: light.turn_on
-        target: "{{ states('input_select.helper_entity') == 'Option 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
+        target: "{{ states('input_select.helper_entity') == 'Light 1' ? states('input_text.light_1') : states('input_text.light_2') }}"
         data:
           brightness_step: '{{ (((rate|int)/2)|int) * -1 }}'
           transition: '{{ rate|int }}'
