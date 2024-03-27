@@ -1,4 +1,10 @@
-blueprint:
+blueprints:
+  import:
+    - name: Smart Car Charging with Octopus Energy  # Give your blueprint a name
+      url: https://raw.githubusercontent.com/your_username/your_repo/master/smart_car_charging.yaml  # Replace with your blueprint location
+
+# Rest of your Home Assistant configuration...
+
 # Name of the Blueprint
 name: Smart Car Charging with Octopus Energy
 
