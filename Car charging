@@ -19,7 +19,7 @@ blueprint:
       entity_id: "{{ target.entity_id }}"
       state: "on"
   action:
-    # Conditional actions based on target selection (optional)
+#    # Conditional actions based on target selection (optional)
     - choose:  # Use choose action only if you want an additional check
       - conditions: "{{ target.entity_id }}"
         sequence:
