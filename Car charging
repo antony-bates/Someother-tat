@@ -1,10 +1,9 @@
 blueprint:
-  name: Dynamic Car Charging based on Energy Price
-  description: Controls car charging based on current and upcoming energy rates, and price changes.
+  name: Dynamic Car Charging based on Energy Price (Select Chargers)
+  description: Controls selected car chargers based on current and upcoming energy rates, and price changes.
   domain: automation
   input:
     energy_price_sensor: # Name of your energy price sensor
-    car_charger_sensor:  # Name of your car charging sensor
     offpeak_threshold:  # Price below which charging is allowed (optional, default: 0.1)
     onpeak_threshold:  # Price above which charging is stopped (optional, default: 0.2)
   trigger:
@@ -17,13 +16,17 @@ blueprint:
       sensor: "{{ input.energy_price_sensor }}"
       value_template: "{{ float(state_attr('sensor.' + trigger.entity_id, 'price')) < input.offpeak_threshold }}"
     - condition: state
-      entity_id: "{{ input.car_charger_sensor }}"
+      entity_id: "{{ target.entity_id }}"
       state: "on"
   action:
-    - service: switch.turn_on
-      entity_id: "{{ input.car_charger_sensor }}"
+    - target:
+      entity: "{{ target.entity_id }}"
+    service: switch.turn_on
     - condition: template
       sensor: "{{ input.energy_price_sensor }}"
       value_template: "{{ float(state_attr('sensor.' + trigger.entity_id, 'price')) >= input.onpeak_threshold }}"
-    - service: switch.turn_off
-      entity_id: "{{ input.car_charger_sensor }}"
+    - target:
+      entity: "{{ target.entity_id }}"
+    service: switch.turn_off
+  target:
+    - platform: entity
