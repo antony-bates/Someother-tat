@@ -1,36 +1,21 @@
-blueprint:
-  name: Dynamic Car Charging based on Energy Price (Select Chargers)
-  description: Controls selected car chargers based on current and upcoming energy rates, and price changes.
-  domain: automation
-  input:
-    energy_price_sensor: # Name of your energy price sensor
-    offpeak_threshold:  # Price below which charging is allowed (optional, default: 0.1)
-    onpeak_threshold:  # Price above which charging is stopped (optional, default: 0.2)
-  trigger:
-    - platform: state
-      entity_id: "{{ trigger.entity_id }}"
-    - platform: template
-      sensor: "{{ input.energy_price_sensor }}"
-  condition:
-    - condition: template
-      sensor: "{{ input.energy_price_sensor }}"
-      value_template: "{{ float(state_attr('sensor.' + trigger.entity_id, 'price')) < input.offpeak_threshold }}"
-    - condition: state
-      entity_id: "{{ target.entity_id }}"
-      state: "on"
-  action:
-#    # Conditional actions based on target selection (optional)
-    - choose:  # Use choose action only if you want an additional check
-      - conditions: "{{ target.entity_id }}"
-        sequence:
-          - service: switch.turn_on
-            target:
-              entity_id: "{{ target.entity_id }}"
-    - choose:  # Use choose action only if you want an additional check
-      - conditions: "{{ target.entity_id }}"
-        sequence:
-          - service: switch.turn_off
-            target:
-              entity_id: "{{ target.entity_id }}"
-  target:
-    - platform: entity
+# Name of the Blueprint
+name: Smart Car Charging with Octopus Energy
+
+# Description of the Blueprint
+description: Charge your car only when plugged in and electricity price is low (Octopus Energy)
+
+# Define the trigger
+trigger:
+  - platform: state
+    entity_id: sensor.my_seat_charging_status  # Replace with your car's plugged-in sensor
+    to: 'on'
+
+# Define the conditions
+conditions:
+  - platform: template
+    value_template: "{{ state_attr('sensor.octopus_energy_price', 'value') < 0.1 }}"  # Charge below 10p per kWh (adjust as needed)
+
+# Define the action
+action:
+  - service: switch.turn_on
+    entity_id: switch.car_charger  # Replace with your car charger switch
