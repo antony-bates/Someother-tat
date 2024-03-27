@@ -16,17 +16,4 @@ blueprint:
       sensor: "{{ input.energy_price_sensor }}"
       value_template: "{{ float(state_attr('sensor.' + trigger.entity_id, 'price')) < input.offpeak_threshold }}"
     - condition: state
-      entity_id: "{{ target.entity_id }}"
-      state: "on"
-  action:
-    - target:
-      entity: "{{ target.entity_id }}"
-    service: switch.turn_on
-    - condition: template
-      sensor: "{{ input.energy_price_sensor }}"
-      value_template: "{{ float(state_attr('sensor.' + trigger.entity_id, 'price')) >= input.onpeak_threshold }}"
-    - target:
-      entity: "{{ target.entity_id }}"
-    service: switch.turn_off
-  target:
-    - platform: entity
+      entity
