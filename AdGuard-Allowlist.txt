@@ -1,0 +1,10 @@
+# Regexp Whitelist
+
+# General
+## Flightradar24
+### Url: https://www.flightradar24.com/
+
+/^(data-cloud|www)\.flightradar24\.com$/
+
+
+
