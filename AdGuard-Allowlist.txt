@@ -5,6 +5,7 @@
 ### Url: https://www.flightradar24.com/
 
 /^(data-cloud|www)\.flightradar24\.com$/
+@@ ||continuum.dds.microsoft.com^
 
 
 
