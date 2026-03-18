@@ -4,7 +4,7 @@
 ## Flightradar24
 ### Url: https://www.flightradar24.com/
 
-/^(data-cloud|www)\.flightradar24\.com$/
+@@ ||flightradar24.com^
 @@ ||continuum.dds.microsoft.com^
 @@ ||mobile.pipe.aria.microsoft.com^
 
