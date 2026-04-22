@@ -6,7 +6,28 @@
 
 @@ ||flightradar24.com^
 @@ ||continuum.dds.microsoft.com^
-@@||microsoft.com^$document
+@@ ||microsoft.com^$document
+@@||api.fountain.fm^
+@@||a1.api.bbc.co.uk^
+@@||mybbc-analytics.files.bbci.co.uk^
+@@||lloydsbankinggroup.tt.omtrdc.net^
+@@||check2.lloydsbank.co.uk^
+@@||analytics.home-assistant.io^$important
+@@||teams.events.data.microsoft.com^$important
+@@||click.discord.com^$important
+@@||api.qustodio.com^
+||*.netflix.com^$dnstype=AAAA
+||*.nflxso.net^$dnstype=AAAA
+||*.nflximg.com^$dnstype=AAAA
+||*.nflxvideo.net^$dnstype=AAAA
+||*.fast.com^$dnstype=AAAA
+@@||*.microsoft.com^$document 
+@@||mobile.events.data.microsoft.com^$important
+@@||browser.pipe.aria.microsoft.com^$important
+@@||c1.microsoft.com^$important
+@@||gcc.teamsinsight.myanalytics.cdn.office.net^$important
+@@||teamsinsight.myanalytics.cdn.office.net^$important
+
 
 
 
