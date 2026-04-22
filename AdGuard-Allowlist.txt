@@ -6,7 +6,7 @@
 
 @@ ||flightradar24.com^
 @@ ||continuum.dds.microsoft.com^
-@@ ||mobile.pipe.aria.microsoft.com^
+@@ ||microsoft.com^
 
 
 
