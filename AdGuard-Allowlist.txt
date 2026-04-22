@@ -6,7 +6,7 @@
 
 @@ ||flightradar24.com^
 @@ ||continuum.dds.microsoft.com^
-@@ ||microsoft.com^
+@@||microsoft.com^$document
 
 
 
