@@ -27,6 +27,7 @@
 @@||c1.microsoft.com^$important
 @@||gcc.teamsinsight.myanalytics.cdn.office.net^$important
 @@||teamsinsight.myanalytics.cdn.office.net^$important
+@@|o427061.ingest.sentry.io^$important
 
 
 
